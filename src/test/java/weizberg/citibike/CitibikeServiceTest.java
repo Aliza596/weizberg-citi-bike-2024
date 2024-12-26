@@ -1,7 +1,13 @@
 package weizberg.citibike;
 
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleObserver;
 import org.junit.jupiter.api.Test;
 import weizberg.citibike.json.DataCollection;
+import weizberg.citibike.json.Stations;
+
+import javax.swing.plaf.synth.SynthOptionPaneUI;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,33 +15,30 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CitibikeServiceTest {
 
     @Test
-    public void fetchGeneralStationInformation() {
-
+    public void getStationInformation() {
         //given
-        CitibikeService service = new CitibikeServiceFactory().getCitibikeService();
+        CitibikeServiceFactory factory = new CitibikeServiceFactory();
 
         //when
-        DataCollection dataCollection = service.stationLocation().blockingGet();
+        Map<String, Stations> stationsMap = factory.getStationsMap();
 
         //then
-        assertNotNull(dataCollection.data.stations[0].station_id);
-        assertTrue(dataCollection.data.stations[0].lat != 0.0);
-        assertTrue(dataCollection.data.stations[0].lon != 0.0);
-
+        assertNotNull(stationsMap.values().iterator().next());
+        assertTrue(stationsMap.values().iterator().next().lat != 0);
+        assertTrue(stationsMap.values().iterator().next().lon != 0);
     }
 
     @Test
-    public void fetchStationAvailability() {
+    public void getStationStatus() {
         //given
-        CitibikeService service = new CitibikeServiceFactory().getCitibikeService();
+        CitibikeServiceFactory factory = new CitibikeServiceFactory();
 
         //when
-        DataCollection dataCollection = service.stationStatus().blockingGet();
+        Map<String, Stations> stationsMap = factory.getStationsMap();
 
         //then
-        assertTrue(dataCollection.data.stations[0].num_bikes_available >= 0);
+        assertNotNull(stationsMap.values().iterator().next());
+        assertTrue(stationsMap.values().iterator().next().num_bikes_available >= 0);
+        assertTrue(stationsMap.values().iterator().next().num_docks_available >= 0);
     }
-
-
-
 }
