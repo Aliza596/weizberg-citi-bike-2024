@@ -13,8 +13,6 @@ import java.util.concurrent.TimeUnit;
 
 
 public class StationMethods {
-
-
     private int numDocksAvailable;
     private int numBikesAvailable;
     private final Map<String, Station> stations;
@@ -40,18 +38,7 @@ public class StationMethods {
         return numBikesAvailable;
     }
 
-
-    public int getNumDocksAvailable() {
-        return numDocksAvailable;
-    }
-
-
-    public int getNumBikesAvailable() {
-        return numBikesAvailable;
-    }
-
-
-    public String closestPickUpStation(double lat, double lon) {
+    public Station closestPickUpStation(double lat, double lon) {
         double closestDistance = 0;
         String closestStationId = "";
 
@@ -59,54 +46,42 @@ public class StationMethods {
         for (int i = 0; i < stations.values().size(); i++) {
             Station station = (Station) stations.values().toArray()[i];
 
-
             double stationLon = station.lon;
             double stationLat = station.lat;
             double distance = distance(lat, lon, stationLat, stationLon);
+
             int bikes = station.num_bikes_available;
-            int docks = station.num_docks_available;
-
-
-            if (station.station_id.equals("69717638-5c4a-47a7-bccb-3b42c81eb09f")) {
-                System.out.println(distance);
-            }
-
 
             if ((i == 0) || (distance < closestDistance && bikes > 0)) {
                 closestDistance = distance;
                 closestStationId = station.station_id;
             }
-
-
         }
 
 
-        return closestStationId;
+        return stations.get(closestStationId);
     }
 
 
-    public String closestDropOffStation(double lat, double lon) {
+    public Station closestDropOffStation(double lat, double lon) {
         double closestDistance = 0;
         String closestStationId = "";
 
-
         for (int i = 0; i < stations.values().size(); i++) {
             Station station = (Station) stations.values().toArray()[i];
+
             double stationLon = station.lon;
             double stationLat = station.lat;
-
-
             double distance = distance(lat, lon, stationLat, stationLon);
 
+            int docks = station.num_docks_available;
 
-            if ((distance < closestDistance || closestDistance == 0) && station.num_docks_available > 0) {
+            if ((i == 0) || (distance < closestDistance && docks > 0)) {
                 closestDistance = distance;
                 closestStationId = station.station_id;
             }
         }
-
-
-        return closestStationId;
+        return stations.get(closestStationId);
     }
 
 

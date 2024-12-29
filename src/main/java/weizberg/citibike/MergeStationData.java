@@ -12,8 +12,8 @@ import java.util.concurrent.TimeUnit;
 
 
 public class MergeStationData {
-    CitibikeService citibikeService;
 
+    CitibikeService citibikeService;
 
     public MergeStationData() {
         CitibikeServiceFactory factory = new CitibikeServiceFactory();
