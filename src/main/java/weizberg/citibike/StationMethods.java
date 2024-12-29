@@ -28,6 +28,14 @@ public class StationMethods {
         numBikesAvailable = station.num_bikes_available;
     }
 
+    public int getNumDocksAvailable() {
+        return numDocksAvailable;
+    }
+
+    public int getNumBikesAvailable() {
+        return numBikesAvailable;
+    }
+
 
     public Single<DataCollection> mergeData() {
         Single<DataCollection> stationInfo = citibikeService.stationLocation();
