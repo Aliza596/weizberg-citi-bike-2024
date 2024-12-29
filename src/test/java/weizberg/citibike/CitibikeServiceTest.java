@@ -1,21 +1,28 @@
 package weizberg.citibike;
 
+
 import org.junit.jupiter.api.Test;
 import weizberg.citibike.json.Station;
 
+
 import java.util.Map;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 public class CitibikeServiceTest {
+
 
     @Test
     public void stationLocation() {
         //given
-        StationMethods stationMethods = new StationMethods();
+        MergeStationData mergeStationData = new MergeStationData();
+
 
         //when
-        Map<String, Station> stationsMap = stationMethods.getStationsMap();
+        Map<String, Station> stationsMap = mergeStationData.getStationsMap();
+
 
         //then
         assertFalse(stationsMap.isEmpty());
@@ -24,13 +31,16 @@ public class CitibikeServiceTest {
         assertTrue(stationsMap.values().iterator().next().lon != 0);
     }
 
+
     @Test
     public void stationStatus() {
         //given
-        StationMethods stationMethods = new StationMethods();
+        MergeStationData mergeStationData = new MergeStationData();
+
 
         //when
-        Map<String, Station> stationsMap = stationMethods.getStationsMap();
+        Map<String, Station> stationsMap = mergeStationData.getStationsMap();
+
 
         //then
         assertFalse(stationsMap.isEmpty());
