@@ -2,7 +2,6 @@ package weizberg.citibike;
 
 import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.GET;
-import weizberg.citibike.json.Data;
 import weizberg.citibike.json.DataCollection;
 
 public interface CitibikeService {

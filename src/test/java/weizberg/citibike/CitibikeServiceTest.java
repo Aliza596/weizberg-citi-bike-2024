@@ -1,42 +1,43 @@
 package weizberg.citibike;
 
-import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.core.SingleObserver;
 import org.junit.jupiter.api.Test;
-import weizberg.citibike.json.DataCollection;
-import weizberg.citibike.json.Stations;
+import weizberg.citibike.json.Station;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CitibikeServiceTest {
 
     @Test
-    public void getStationInformation() {
+    public void stationLocation() {
         //given
         CitibikeServiceFactory factory = new CitibikeServiceFactory();
+        CitibikeService service = factory.getCitibikeService();
+        StationMethods stationMethods = new StationMethods();
 
         //when
-        Map<String, Stations> stationsMap = factory.getStationsMap();
+        Map<String, Station> stationsMap = stationMethods.getStationsMap(service);
 
         //then
+        assertFalse(stationsMap.isEmpty());
         assertNotNull(stationsMap.values().iterator().next());
         assertTrue(stationsMap.values().iterator().next().lat != 0);
         assertTrue(stationsMap.values().iterator().next().lon != 0);
     }
 
     @Test
-    public void getStationStatus() {
+    public void stationStatus() {
         //given
         CitibikeServiceFactory factory = new CitibikeServiceFactory();
+        CitibikeService service = factory.getCitibikeService();
+        StationMethods stationMethods = new StationMethods();
 
         //when
-        Map<String, Stations> stationsMap = factory.getStationsMap();
+        Map<String, Station> stationsMap = stationMethods.getStationsMap(service);
 
         //then
+        assertFalse(stationsMap.isEmpty());
         assertNotNull(stationsMap.values().iterator().next());
         assertTrue(stationsMap.values().iterator().next().num_bikes_available >= 0);
         assertTrue(stationsMap.values().iterator().next().num_docks_available >= 0);

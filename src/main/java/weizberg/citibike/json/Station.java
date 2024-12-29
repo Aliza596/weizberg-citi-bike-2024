@@ -1,6 +1,6 @@
 package weizberg.citibike.json;
 
-public class Stations {
+public class Station {
 
     public double lat;
     public double lon;

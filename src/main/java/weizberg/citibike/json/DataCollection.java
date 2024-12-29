@@ -6,13 +6,13 @@ import java.util.Map;
 public class DataCollection {
 
     public Data data;
-    Map<String, Stations> stationsMap = new HashMap<>();
+    Map<String, Station> stationsMap = new HashMap<>();
 
     public void mergeData(DataCollection collection) {
 
         for (int i = 0; i < collection.data.stations.length; i++) {
-            Stations status = collection.data.stations[i];
-            Stations station = stationsMap.get(status.station_id);
+            Station status = collection.data.stations[i];
+            Station station = stationsMap.get(status.station_id);
 
             if (station != null) {
                 station.num_bikes_available = status.num_bikes_available;
@@ -21,14 +21,14 @@ public class DataCollection {
         }
 
         for (int i = 0; i < this.data.stations.length; i++) {
-            Stations stations = this.data.stations[i];
-            stationsMap.put(stations.station_id, stations);
+            Station station = this.data.stations[i];
+            stationsMap.put(station.station_id, station);
 
 
         }
     }
 
-    public Map<String, Stations> getStationsMap() {
+    public Map<String, Station> getStationsMap() {
         return stationsMap;
     }
 
