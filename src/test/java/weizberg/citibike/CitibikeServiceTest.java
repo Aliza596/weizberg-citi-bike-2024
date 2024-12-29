@@ -12,12 +12,10 @@ public class CitibikeServiceTest {
     @Test
     public void stationLocation() {
         //given
-        CitibikeServiceFactory factory = new CitibikeServiceFactory();
-        CitibikeService service = factory.getCitibikeService();
         StationMethods stationMethods = new StationMethods();
 
         //when
-        Map<String, Station> stationsMap = stationMethods.getStationsMap(service);
+        Map<String, Station> stationsMap = stationMethods.getStationsMap();
 
         //then
         assertFalse(stationsMap.isEmpty());
@@ -29,12 +27,10 @@ public class CitibikeServiceTest {
     @Test
     public void stationStatus() {
         //given
-        CitibikeServiceFactory factory = new CitibikeServiceFactory();
-        CitibikeService service = factory.getCitibikeService();
         StationMethods stationMethods = new StationMethods();
 
         //when
-        Map<String, Station> stationsMap = stationMethods.getStationsMap(service);
+        Map<String, Station> stationsMap = stationMethods.getStationsMap();
 
         //then
         assertFalse(stationsMap.isEmpty());

@@ -13,16 +13,14 @@ public class StationMethodsTest {
     @Test
     public void closestPickUp() {
         //given
-        CitibikeServiceFactory factory = new CitibikeServiceFactory();
         StationMethods stationMethods = new StationMethods();
-        Map<String, Station> stationsMap = stationMethods.getStationsMap(factory.getCitibikeService());
+        Map<String, Station> stationsMap = stationMethods.getStationsMap();
 
         //when
         String closestId = stationMethods.closestPickUpStation(40.72368, -73.90458, stationsMap);
+        System.out.println("ID: " + closestId);
 
         //then
         assertEquals(closestId, "69717638-5c4a-47a7-bccb-3b42c81eb09f");
     }
-
-
 }

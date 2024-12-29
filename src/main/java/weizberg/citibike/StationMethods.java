@@ -5,17 +5,31 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import weizberg.citibike.json.DataCollection;
 import weizberg.citibike.json.Station;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class StationMethods {
 
+    private final CitibikeService citibikeService;
+    private int numDocksAvailable;
+    private int numBikesAvailable;
+
+    public StationMethods() {
+        CitibikeServiceFactory serviceFactory = new CitibikeServiceFactory();
+        citibikeService = serviceFactory.getCitibikeService();
+        numDocksAvailable = 0;
+        numBikesAvailable = 0;
+    }
+
     public void stationStatus(String stationId, Map<String, Station> stations) {
-        stations.get(stationId);
+        Station station = stations.get(stationId);
+        numDocksAvailable = station.num_docks_available;
+        numBikesAvailable = station.num_bikes_available;
     }
 
 
-    public Single<DataCollection> mergeData(CitibikeService citibikeService) {
+    public Single<DataCollection> mergeData() {
         Single<DataCollection> stationInfo = citibikeService.stationLocation();
         Single<DataCollection> stationStatus = citibikeService.stationStatus();
 
@@ -27,9 +41,9 @@ public class StationMethods {
                 .observeOn(Schedulers.single());
     }
 
-    public Map<String, Station> getStationsMap(CitibikeService service) {
+    public Map<String, Station> getStationsMap() {
         try {
-            return mergeData(service).timeout(10, TimeUnit.SECONDS).blockingGet().getStationsMap();
+            return mergeData().timeout(10, TimeUnit.SECONDS).blockingGet().getStationsMap();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
