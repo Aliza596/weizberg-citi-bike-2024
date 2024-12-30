@@ -37,7 +37,7 @@ public class CitibikeHandlerTest {
 
         //then
         assertNotNull(response);
-        assertEquals(response.getEnd().name, "N 6 St & Bedford Ave");
+        assertEquals(response.getEnd().name, "Berry St & N 8 St");
         assertEquals(response.getStart().name, "Lenox Ave & W 146 St");
     }
 }
