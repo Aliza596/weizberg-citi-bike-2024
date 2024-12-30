@@ -26,12 +26,11 @@ public class StationMethodsTest {
         Station station = stationMap.get("69717638-5c4a-47a7-bccb-3b42c81eb09f");
         int numDocks = station.num_docks_available;
         int numBikes = station.num_bikes_available;
-        stationMethods.stationStatus("69717638-5c4a-47a7-bccb-3b42c81eb09f");
 
 
         //then
-        assertEquals(numDocks, stationMethods.getNumDocksAvailable());
-        assertEquals(numBikes, stationMethods.getNumBikesAvailable());
+        assertEquals(numDocks, stationMethods.getNumDocks("69717638-5c4a-47a7-bccb-3b42c81eb09f"));
+        assertEquals(numBikes, stationMethods.getNumBikes("69717638-5c4a-47a7-bccb-3b42c81eb09f"));
     }
 
 
@@ -44,8 +43,7 @@ public class StationMethodsTest {
         String closestId = stationMethods.closestPickUpStation(40.66619, -73.93162).station_id;
 
         //then
-        stationMethods.stationStatus(closestId);
-        if (stationMethods.getNumBikesAvailable() > 0) {
+        if (stationMethods.getNumBikes(closestId) > 0) {
             assertEquals(closestId, "922763d6-d73c-4678-8bcd-f42ee3a236db");
         } else {
             assertNotEquals(closestId, "922763d6-d73c-4678-8bcd-f42ee3a236db");
@@ -61,8 +59,7 @@ public class StationMethodsTest {
         String closestId = stationMethods.closestDropOffStation(40.66619, -73.93162).station_id;
 
         //then
-        stationMethods.stationStatus(closestId);
-        if (stationMethods.getNumDocksAvailable() > 0) {
+        if (stationMethods.getNumDocks(closestId) > 0) {
             assertEquals(closestId, "922763d6-d73c-4678-8bcd-f42ee3a236db");
         } else {
             assertNotEquals(closestId, "922763d6-d73c-4678-8bcd-f42ee3a236db");

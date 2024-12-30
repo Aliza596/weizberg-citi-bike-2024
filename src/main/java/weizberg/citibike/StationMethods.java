@@ -23,20 +23,16 @@ public class StationMethods {
         stations = mergeStationData.getStationsMap();
     }
 
-
-    public void stationStatus(String stationId) {
+    public int getNumDocks(String stationId) {
         Station station = stations.get(stationId);
-        numDocksAvailable = station.num_docks_available;
-        numBikesAvailable = station.num_bikes_available;
+        return station.num_docks_available;
     }
 
-    public int getNumDocksAvailable() {
-        return numDocksAvailable;
+    public int getNumBikes(String stationId) {
+        Station station = stations.get(stationId);
+        return station.num_bikes_available;
     }
 
-    public int getNumBikesAvailable() {
-        return numBikesAvailable;
-    }
 
     public Station closestPickUpStation(double lat, double lon) {
         double closestDistance = 0;
