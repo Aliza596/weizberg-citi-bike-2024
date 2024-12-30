@@ -6,22 +6,22 @@ public class CitibikeResponse {
 
     private CoordinateLocation from;
     private CoordinateLocation to;
-    private Station start;
-    private Station end;
+    private StationResponse start;
+    private StationResponse end;
 
     public CitibikeResponse(CoordinateLocation from, CoordinateLocation to, Station start, Station end) {
         this.from = from;
         this.to = to;
-        this.start = start;
-        this.end = end;
+        this.start = new StationResponse(start);
+        this.end = new StationResponse(end);
     }
 
 
-    public Station getStart() {
+    public StationResponse getStart() {
         return start;
     }
 
-    public Station getEnd() {
+    public StationResponse getEnd() {
         return end;
     }
 }

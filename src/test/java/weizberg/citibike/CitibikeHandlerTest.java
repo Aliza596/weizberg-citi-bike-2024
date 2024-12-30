@@ -34,10 +34,9 @@ public class CitibikeHandlerTest {
         CitibikeRequestHandler handler = new CitibikeRequestHandler();
         CitibikeResponse response = handler.handleRequest(requestEvent, context);
 
-
         //then
         assertNotNull(response);
-        assertEquals(response.getEnd().name, "Berry St & N 8 St");
-        assertEquals(response.getStart().name, "Lenox Ave & W 146 St");
+        assertEquals(response.getStart().getName(), "Lenox Ave & W 146 St");
+        assertEquals(response.getEnd().getName(), "Berry St & N 8 St");
     }
 }
