@@ -68,23 +68,6 @@ public class StationMethods {
             }
         }
 
-
-/*        for (int i = 0; i < stations.values().size(); i++) {
-            Station station = (Station) stations.values().toArray()[i];
-            double stationLon = station.lon;
-            double stationLat = station.lat;
-
-
-            double distance = distance(lat, lon, stationLat, stationLon);
-
-
-            if ((distance < closestDistance || closestDistance == 0) && station.num_docks_available > 0) {
-                closestDistance = distance;
-                closestStationId = station.station_id;
-            }
-        }*/
-
-
         return closestStation;
     }
 
