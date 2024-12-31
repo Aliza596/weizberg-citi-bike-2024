@@ -28,12 +28,14 @@ public class StationMethodsTest {
         Station station = stationMap.get("69717638-5c4a-47a7-bccb-3b42c81eb09f");
         int numDocks = station.num_docks_available;
         int numBikes = station.num_bikes_available;
-        stationMethods.stationStatus("69717638-5c4a-47a7-bccb-3b42c81eb09f");
+        int actualBikes = stationMethods.getNumBikes("69717638-5c4a-47a7-bccb-3b42c81eb09f");
+        int actualDocks = stationMethods.getNumDocks("69717638-5c4a-47a7-bccb-3b42c81eb09f");
+
 
 
         //then
-        assertEquals(numDocks, stationMethods.getNumDocksAvailable());
-        assertEquals(numBikes, stationMethods.getNumBikesAvailable());
+        assertEquals(numDocks, actualDocks);
+        assertEquals(numBikes, actualBikes);
     }
 
 

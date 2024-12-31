@@ -22,13 +22,14 @@ public class CitibikeServiceTest {
 
         //when
         Map<String, Station> stationsMap = mergeStationData.getStationsMap();
+        Station station = stationsMap.get(stationsMap.keySet().iterator().next());
 
 
         //then
         assertFalse(stationsMap.isEmpty());
-        assertNotNull(stationsMap.values().iterator().next());
-        assertTrue(stationsMap.values().iterator().next().lat != 0);
-        assertTrue(stationsMap.values().iterator().next().lon != 0);
+        assertNotNull(station);
+        assertTrue(station.lat != 0);
+        assertTrue(station.lon != 0);
     }
 
 

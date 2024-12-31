@@ -15,8 +15,6 @@ import java.util.concurrent.TimeUnit;
 public class StationMethods {
 
 
-    private int numDocksAvailable;
-    private int numBikesAvailable;
     private final Map<String, Station> stations;
 
 
@@ -25,21 +23,14 @@ public class StationMethods {
         stations = mergeStationData.getStationsMap();
     }
 
-
-    public void stationStatus(String stationId) {
+    public int getNumDocks(String stationId) {
         Station station = stations.get(stationId);
-        numDocksAvailable = station.num_docks_available;
-        numBikesAvailable = station.num_bikes_available;
+        return station.num_docks_available;
     }
 
-
-    public int getNumDocksAvailable() {
-        return numDocksAvailable;
-    }
-
-
-    public int getNumBikesAvailable() {
-        return numBikesAvailable;
+    public int getNumBikes(String stationId) {
+        Station station = stations.get(stationId);
+        return station.num_bikes_available;
     }
 
 
@@ -56,13 +47,6 @@ public class StationMethods {
             double stationLat = station.lat;
             double distance = distance(lat, lon, stationLat, stationLon);
             int bikes = station.num_bikes_available;
-            int docks = station.num_docks_available;
-
-
-            if (station.station_id.equals("69717638-5c4a-47a7-bccb-3b42c81eb09f")) {
-                System.out.println(distance);
-            }
-
 
             if ((i == 0) || (distance < closestDistance && bikes > 0)) {
                 closestDistance = distance;
