@@ -13,8 +13,6 @@ import java.util.concurrent.TimeUnit;
 
 
 public class StationMethods {
-    private int numDocksAvailable;
-    private int numBikesAvailable;
     private final Map<String, Station> stations;
 
 
