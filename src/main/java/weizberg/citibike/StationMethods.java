@@ -18,9 +18,8 @@ public class StationMethods {
     private final Map<String, Station> stations;
 
 
-    public StationMethods() {
-        MergeStationData mergeStationData = new MergeStationData();
-        stations = mergeStationData.getStationsMap();
+    public StationMethods(Map<String, Station> stations) {
+        this.stations = stations;
     }
 
     public int getNumDocks(String stationId) {
@@ -34,39 +33,43 @@ public class StationMethods {
     }
 
 
-    public String closestPickUpStation(double lat, double lon) {
-        double closestDistance = 0;
-        String closestStationId = "";
+    public Station closestPickUpStation(double lat, double lon) {
+        double closestDistance = Double.MAX_VALUE;
+        Station closestStation = null;
 
-
-        for (int i = 0; i < stations.values().size(); i++) {
-            Station station = (Station) stations.values().toArray()[i];
-
-
+        for (Station station : stations.values()) {
             double stationLon = station.lon;
             double stationLat = station.lat;
             double distance = distance(lat, lon, stationLat, stationLon);
             int bikes = station.num_bikes_available;
 
-            if ((i == 0) || (distance < closestDistance && bikes > 0)) {
+            if (distance < closestDistance && bikes > 0) {
                 closestDistance = distance;
-                closestStationId = station.station_id;
+                closestStation = station;
             }
-
-
         }
-
-
-        return closestStationId;
+        return closestStation;
     }
 
 
-    public String closestDropOffStation(double lat, double lon) {
-        double closestDistance = 0;
-        String closestStationId = "";
+    public Station closestDropOffStation(double lat, double lon) {
+        double closestDistance = Double.MAX_VALUE;
+        Station closestStation = null;
+
+        for (Station station : stations.values()) {
+            double stationLon = station.lon;
+            double stationLat = station.lat;
+            double distance = distance(lat, lon, stationLat, stationLon);
+            int docks = station.num_docks_available;
+
+            if (distance < closestDistance && docks > 0) {
+                closestDistance = distance;
+                closestStation = station;
+            }
+        }
 
 
-        for (int i = 0; i < stations.values().size(); i++) {
+/*        for (int i = 0; i < stations.values().size(); i++) {
             Station station = (Station) stations.values().toArray()[i];
             double stationLon = station.lon;
             double stationLat = station.lat;
@@ -79,10 +82,10 @@ public class StationMethods {
                 closestDistance = distance;
                 closestStationId = station.station_id;
             }
-        }
+        }*/
 
 
-        return closestStationId;
+        return closestStation;
     }
 
 

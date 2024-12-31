@@ -24,7 +24,7 @@ public class StationMethodsTest {
 
 
         //when
-        StationMethods stationMethods = new StationMethods();
+        StationMethods stationMethods = new StationMethods(stationMap);
         Station station = stationMap.get("69717638-5c4a-47a7-bccb-3b42c81eb09f");
         int numDocks = station.num_docks_available;
         int numBikes = station.num_bikes_available;
@@ -47,12 +47,31 @@ public class StationMethodsTest {
 
 
         //when
-        StationMethods stationMethods = new StationMethods();
-        String closestId = stationMethods.closestPickUpStation(40.72368, -73.90458);
-        System.out.println("ID: " + closestId);
+        StationMethods stationMethods = new StationMethods(stationsMap);
+        Station expectedClosestStation = new Station();
+        expectedClosestStation.name = "56 Dr & 61 St";
+        Station actualClosestStation = stationMethods.closestPickUpStation(40.72368, -73.90458);
 
 
         //then
-        assertEquals(closestId, "69717638-5c4a-47a7-bccb-3b42c81eb09f");
+        assertEquals(expectedClosestStation.name, actualClosestStation.name);
+    }
+
+    @Test
+    public void closestDropOff() {
+        //given
+        MergeStationData mergeStationData = new MergeStationData();
+        Map<String, Station> stationsMap = mergeStationData.getStationsMap();
+
+
+        //when
+        StationMethods stationMethods = new StationMethods(stationsMap);
+        Station expectedClosestStation = new Station();
+        expectedClosestStation.name = "56 Dr & 61 St";
+        Station actualClosestStation = stationMethods.closestDropOffStation(40.72368, -73.90458);
+
+
+        //then
+        assertEquals(expectedClosestStation.name, actualClosestStation.name);
     }
 }
