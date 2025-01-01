@@ -48,7 +48,7 @@ public class StationMethodsTest {
     }
 
     @Test
-    public void closestDropOff() {
+    public void closestDropOffStation() {
         //given
         MergeStationData mergeStationData = new MergeStationData();
         Map<String, Station> stationsMap = mergeStationData.getStationsMap();
