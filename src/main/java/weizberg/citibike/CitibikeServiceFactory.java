@@ -6,14 +6,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CitibikeServiceFactory {
 
-    public CitibikeService getCitibikeService() {
+    private final CitibikeService citibikeService;
+
+    public CitibikeServiceFactory() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://gbfs.citibikenyc.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
 
-        return retrofit.create(CitibikeService.class);
+        citibikeService = retrofit.create(CitibikeService.class);
     }
 
+    public CitibikeService getCitibikeService() {
+        return citibikeService;
+    }
 }
