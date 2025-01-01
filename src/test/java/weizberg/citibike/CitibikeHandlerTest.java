@@ -29,9 +29,9 @@ public class CitibikeHandlerTest {
 
         APIGatewayProxyRequestEvent requestEvent = new APIGatewayProxyRequestEvent();
         requestEvent.setBody(json);
+        CitibikeRequestHandler handler = new CitibikeRequestHandler();
 
         //when
-        CitibikeRequestHandler handler = new CitibikeRequestHandler();
         CitibikeResponse response = handler.handleRequest(requestEvent, context);
 
         //then
