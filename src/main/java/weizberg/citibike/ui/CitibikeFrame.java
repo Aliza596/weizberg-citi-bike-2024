@@ -81,7 +81,7 @@ public class CitibikeFrame extends JFrame {
 
         sendButton.addActionListener(e -> {
             try {
-                controller.getLocation(fromTextField.getText(), toTextField.getText());
+                controller.retrieveBikeInformation(fromTextField.getText(), toTextField.getText());
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

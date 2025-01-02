@@ -21,7 +21,7 @@ public class CitibikeController {
         serviceFactory = new LambdaServiceFactory();
     }
 
-    public void getLocation(String strFromLocation, String strToLocation) throws IOException {
+    public void retrieveBikeInformation(String strFromLocation, String strToLocation) throws IOException {
         addFromLocation(strFromLocation);
         addToLocation(strToLocation);
         sendRequest();
