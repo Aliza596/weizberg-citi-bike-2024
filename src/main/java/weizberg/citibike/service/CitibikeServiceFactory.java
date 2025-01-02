@@ -1,4 +1,4 @@
-package weizberg.citibike.citibikeServices;
+package weizberg.citibike.service;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;

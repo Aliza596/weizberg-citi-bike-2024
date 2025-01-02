@@ -1,4 +1,4 @@
-package weizberg.citibike.citibikeServices;
+package weizberg.citibike.service;
 
 
 import weizberg.citibike.json.Station;

@@ -1,4 +1,4 @@
-package weizberg.citibike.UI;
+package weizberg.citibike.ui;
 
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.OSMTileFactoryInfo;

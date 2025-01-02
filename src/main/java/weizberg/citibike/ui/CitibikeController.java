@@ -1,23 +1,25 @@
-package weizberg.citibike.UI;
+package weizberg.citibike.ui;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jxmapviewer.viewer.DefaultWaypoint;
-import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.Waypoint;
 import weizberg.citibike.aws.CitibikeRequest;
 import weizberg.citibike.aws.CitibikeResponse;
 import weizberg.citibike.aws.CoordinateLocation;
 import weizberg.citibike.lambda.LambdaServiceFactory;
 
-import java.io.File;
 import java.io.IOException;
 
 
 public class CitibikeController {
 
-    CitibikeRequest request = new CitibikeRequest();
-    LambdaServiceFactory serviceFactory = new LambdaServiceFactory();
+    CitibikeRequest request;
+    LambdaServiceFactory serviceFactory;
     CitibikeResponse response;
+
+    public CitibikeController() {
+        request = new CitibikeRequest();
+        serviceFactory = new LambdaServiceFactory();
+    }
 
     public void getLocation(String strFromLocation, String strToLocation) throws IOException {
         addFromLocation(strFromLocation);

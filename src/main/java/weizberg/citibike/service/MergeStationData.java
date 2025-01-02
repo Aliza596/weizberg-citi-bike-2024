@@ -1,4 +1,4 @@
-package weizberg.citibike.citibikeServices;
+package weizberg.citibike.service;
 
 
 import io.reactivex.rxjava3.core.Single;

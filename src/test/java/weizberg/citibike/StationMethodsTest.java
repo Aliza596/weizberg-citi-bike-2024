@@ -2,8 +2,8 @@ package weizberg.citibike;
 
 
 import org.junit.jupiter.api.Test;
-import weizberg.citibike.citibikeServices.MergeStationData;
-import weizberg.citibike.citibikeServices.StationMethods;
+import weizberg.citibike.service.MergeStationData;
+import weizberg.citibike.service.StationMethods;
 import weizberg.citibike.json.Station;
 
 
