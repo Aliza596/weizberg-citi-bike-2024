@@ -41,6 +41,7 @@ public class StationMethods {
             double stationLon = station.lon;
             double stationLat = station.lat;
             double distance = distance(lat, lon, stationLat, stationLon);
+
             int bikes = station.num_bikes_available;
 
             if (distance < closestDistance && bikes > 0) {

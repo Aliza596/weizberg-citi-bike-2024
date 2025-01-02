@@ -13,9 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StationMethodsTest {
 
-
-
-
     @Test
     public void stationStatus() {
         //given
@@ -37,7 +34,7 @@ public class StationMethodsTest {
 
 
     @Test
-    public void closestPickUp() {
+    public void closestPickUpStation() {
         //given
         MergeStationData mergeStationData = new MergeStationData();
         Map<String, Station> stationsMap = mergeStationData.getStationsMap();
@@ -51,7 +48,7 @@ public class StationMethodsTest {
     }
 
     @Test
-    public void closestDropOff() {
+    public void closestDropOffStation() {
         //given
         MergeStationData mergeStationData = new MergeStationData();
         Map<String, Station> stationsMap = mergeStationData.getStationsMap();
