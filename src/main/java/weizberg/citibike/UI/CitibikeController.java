@@ -23,23 +23,14 @@ public class CitibikeController {
         addFromLocation(strFromLocation);
         addToLocation(strToLocation);
         sendRequest();
-        //TODO remive this
-        saveJson();
-    }
-
-    //TODO remove this method after testing
-    public void saveJson() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.writeValue(new File("citibike_response.json"), response);
-        System.out.println("Saved response");
     }
 
     public Waypoint startLocation() {
-        return new DefaultWaypoint(response.getFrom().getLat(), response.getFrom().getLon());
+        return new DefaultWaypoint(request.getFrom().getLat(), request.getFrom().getLon());
     }
 
     public Waypoint endLocation() {
-        return new DefaultWaypoint(response.getTo().getLat(), response.getTo().getLon());
+        return new DefaultWaypoint(request.getTo().getLat(), request.getTo().getLon());
     }
 
 

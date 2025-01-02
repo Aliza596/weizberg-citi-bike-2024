@@ -3,11 +3,14 @@ package weizberg.citibike.aws;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import weizberg.citibike.citibikeServices.MergeStationData;
 import weizberg.citibike.citibikeServices.StationMethods;
 import weizberg.citibike.json.Station;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 
 public class CitibikeRequestHandler implements RequestHandler<APIGatewayProxyRequestEvent, CitibikeResponse> {
@@ -27,6 +30,15 @@ public class CitibikeRequestHandler implements RequestHandler<APIGatewayProxyReq
         Station end = stationMethods.closestDropOffStation(request.getTo().getLat(), request.getTo().getLon());
 
         return new CitibikeResponse(request.getFrom(), request.getTo(), start, end);
+
+/*        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            objectMapper.writeValue(new File("citibike_response.json"), response);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return response;*/
     }
 
 }

@@ -6,6 +6,8 @@ import org.jxmapviewer.input.CenterMapListener;
 import org.jxmapviewer.input.PanKeyListener;
 import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.input.ZoomMouseWheelListenerCursor;
+import org.jxmapviewer.painter.CompoundPainter;
+import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.*;
 
 import javax.swing.*;
@@ -15,6 +17,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class CitibikeFrame extends JFrame {
@@ -41,7 +45,7 @@ public class CitibikeFrame extends JFrame {
         mapViewer.setTileFactory(tileFactory);
 
         tileFactory.setThreadPoolSize(8);
-        mapViewer.setZoom(10);
+        mapViewer.setZoom(2);
         mapViewer.setAddressLocation(new GeoPosition(40.77207958021334, -73.988297713292));
         MouseInputListener mia = new PanMouseInputListener(mapViewer);
         mapViewer.addMouseListener(mia);
@@ -91,16 +95,35 @@ public class CitibikeFrame extends JFrame {
             );
 
             waypointPainter.setWaypoints(waypoints);
+
+            List<GeoPosition> track = new ArrayList<>();
+            track.add(from.getPosition());
+            track.add(startStation.getPosition());
+            track.add(endStation.getPosition());
+            track.add(to.getPosition());
+            RoutePainter routePainter = new RoutePainter(track);
+
+            List<Painter<JXMapViewer>> painters = List.of(
+                    routePainter,
+                    waypointPainter
+            );
+
+            CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
+            mapViewer.setOverlayPainter(painter);
+
+            mapViewer.zoomToBestFit(
+                    Set.of(from.getPosition(), startStation.getPosition(),
+                            endStation.getPosition(), to.getPosition()),
+                    1.0
+            );
+
         });
 
         panel.add(sendButton);
 
         add(panel, BorderLayout.SOUTH);
 
-/*        mapViewer.zoomToBestFit(
-                Set.of(from, startStation, endStation, to),
-                1.0
-        );*/
+
 
     }
 
