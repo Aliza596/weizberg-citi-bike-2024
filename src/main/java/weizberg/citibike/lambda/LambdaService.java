@@ -10,6 +10,6 @@ import weizberg.citibike.aws.CitibikeResponse;
 public interface LambdaService {
 
     @POST("/")
-    Call<CitibikeResponse> callLambda(@Body CitibikeRequest request);
+    Single<CitibikeResponse> callLambda(@Body CitibikeRequest request);
 
 }

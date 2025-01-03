@@ -1,5 +1,6 @@
 package weizberg.citibike.lambda;
 
+import io.reactivex.rxjava3.core.Single;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
@@ -23,9 +24,8 @@ public class LambdaServiceFactory {
         this.lambdaService = retrofit.create(LambdaService.class);
     }
 
-    public CitibikeResponse callLambda(CitibikeRequest request) throws IOException {
-        Call<CitibikeResponse> call = lambdaService.callLambda(request);
-        return call.execute().body();
+    public Single<CitibikeResponse> callLambda(CitibikeRequest request) throws IOException {
+        return lambdaService.callLambda(request);
     }
 
 }

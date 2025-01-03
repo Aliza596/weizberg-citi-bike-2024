@@ -24,7 +24,7 @@ public class LambdaServiceTest {
         request.setTo(to);
 
         //when
-        CitibikeResponse response = factory.callLambda(request);
+        CitibikeResponse response = factory.callLambda(request).blockingGet();
 
         //then
         assertEquals(response.getStart().getName(), "Lenox Ave & W 146 St");

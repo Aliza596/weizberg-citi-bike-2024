@@ -1,6 +1,8 @@
 package weizberg.citibike.ui;
 
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.jxmapviewer.JXMapViewer;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import org.jxmapviewer.OSMTileFactoryInfo;
 import org.jxmapviewer.input.CenterMapListener;
 import org.jxmapviewer.input.PanKeyListener;
@@ -31,6 +33,7 @@ public class CitibikeFrame extends JFrame {
     Waypoint to;
     Waypoint startStation;
     Waypoint endStation;
+    CompositeDisposable disposables = new CompositeDisposable();
 
     public CitibikeFrame() {
         setSize(800, 800);
@@ -82,49 +85,56 @@ public class CitibikeFrame extends JFrame {
         sendButton.addActionListener(e -> {
             try {
                 controller.retrieveBikeInformation(fromTextField.getText(), toTextField.getText());
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                disposables.add(
+                        controller.sendRequest()
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(Schedulers.single())
+                                .subscribe(response -> {
+                                    WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<>();
+                                    Set<Waypoint> waypoints = Set.of(
+                                            from = controller.startLocation(),
+                                            to = controller.endLocation(),
+                                            startStation = controller.bikePickUpLocation(),
+                                            endStation = controller.bikeDropOffLocation()
+                                    );
+                                    waypointPainter.setWaypoints(waypoints);
+
+                                    List<GeoPosition> track = new ArrayList<>();
+                                    track.add(from.getPosition());
+                                    track.add(startStation.getPosition());
+                                    track.add(endStation.getPosition());
+                                    track.add(to.getPosition());
+
+                                    RoutePainter routePainter = new RoutePainter(track);
+
+                                    List<Painter<JXMapViewer>> painters = List.of(
+                                            routePainter,
+                                            waypointPainter
+                                    );
+
+                                    CompoundPainter<JXMapViewer> painter = new CompoundPainter<>(painters);
+                                    mapViewer.setOverlayPainter(painter);
+                                    mapViewer.zoomToBestFit(
+                                            Set.of(from.getPosition(), startStation.getPosition(),
+                                                    endStation.getPosition(), to.getPosition()), 1.0
+                                    );
+                                }, Throwable::printStackTrace)
+                );
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
-
-            WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<>();
-            Set<Waypoint> waypoints = Set.of(
-                    from = controller.startLocation(),
-                    to = controller.endLocation(),
-                    startStation = controller.bikePickUpLocation(),
-                    endStation = controller.bikeDropOffLocation()
-            );
-
-            waypointPainter.setWaypoints(waypoints);
-
-            List<GeoPosition> track = new ArrayList<>();
-            track.add(from.getPosition());
-            track.add(startStation.getPosition());
-            track.add(endStation.getPosition());
-            track.add(to.getPosition());
-            RoutePainter routePainter = new RoutePainter(track);
-
-            List<Painter<JXMapViewer>> painters = List.of(
-                    routePainter,
-                    waypointPainter
-            );
-
-            CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
-            mapViewer.setOverlayPainter(painter);
-
-            mapViewer.zoomToBestFit(
-                    Set.of(from.getPosition(), startStation.getPosition(),
-                            endStation.getPosition(), to.getPosition()),
-                    1.0
-            );
-
         });
 
         panel.add(sendButton);
 
         add(panel, BorderLayout.SOUTH);
 
+    }
 
-
+    @Override
+    public void dispose() {
+        super.dispose();
+        disposables.dispose();
     }
 
 }

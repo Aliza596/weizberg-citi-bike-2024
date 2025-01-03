@@ -1,5 +1,7 @@
 package weizberg.citibike.ui;
 
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.jxmapviewer.viewer.DefaultWaypoint;
 import org.jxmapviewer.viewer.Waypoint;
 import weizberg.citibike.aws.CitibikeRequest;
@@ -24,7 +26,9 @@ public class CitibikeController {
     public void retrieveBikeInformation(String strFromLocation, String strToLocation) throws IOException {
         addFromLocation(strFromLocation);
         addToLocation(strToLocation);
-        sendRequest();
+        sendRequest().subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(this::handleResponse, this::handleError);
     }
 
     public Waypoint startLocation() {
@@ -45,8 +49,18 @@ public class CitibikeController {
     }
 
 
-    public void sendRequest() throws IOException {
-        response = serviceFactory.callLambda(request);
+    public Single<CitibikeResponse> sendRequest() throws IOException {
+        return serviceFactory.callLambda(request)
+                .doOnSuccess(this::handleResponse)
+                .doOnError(this::handleError);
+    }
+
+    private void handleResponse(CitibikeResponse response) {
+        this.response = response;
+    }
+
+    private void handleError(Throwable throwable) {
+        throwable.printStackTrace();
     }
 
     public void addFromLocation(String strFromLocation) {
