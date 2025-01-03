@@ -4,8 +4,8 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.google.gson.Gson;
-import weizberg.citibike.MergeStationData;
-import weizberg.citibike.StationMethods;
+import weizberg.citibike.service.MergeStationData;
+import weizberg.citibike.service.StationMethods;
 import weizberg.citibike.json.Station;
 
 import java.util.Map;
@@ -25,7 +25,6 @@ public class CitibikeRequestHandler implements RequestHandler<APIGatewayProxyReq
 
         Station start = stationMethods.closestPickUpStation(request.getFrom().getLat(), request.getFrom().getLon());
         Station end = stationMethods.closestDropOffStation(request.getTo().getLat(), request.getTo().getLon());
-
 
         return new CitibikeResponse(request.getFrom(), request.getTo(), start, end);
     }

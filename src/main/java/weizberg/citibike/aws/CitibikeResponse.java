@@ -16,6 +16,13 @@ public class CitibikeResponse {
         this.end = new StationResponse(end);
     }
 
+    public CoordinateLocation getFrom() {
+        return from;
+    }
+
+    public CoordinateLocation getTo() {
+        return to;
+    }
 
     public StationResponse getStart() {
         return start;

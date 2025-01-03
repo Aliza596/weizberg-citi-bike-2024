@@ -1,15 +1,10 @@
-package weizberg.citibike;
+package weizberg.citibike.service;
 
 
-import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.schedulers.Schedulers;
-import weizberg.citibike.json.DataCollection;
 import weizberg.citibike.json.Station;
 
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 
 public class StationMethods {
