@@ -24,8 +24,8 @@ public class LambdaServiceFactory {
         this.lambdaService = retrofit.create(LambdaService.class);
     }
 
-    public Single<CitibikeResponse> callLambda(CitibikeRequest request) throws IOException {
-        return lambdaService.callLambda(request);
+    public LambdaService getLambdaService() {
+        return lambdaService;
     }
 
 }

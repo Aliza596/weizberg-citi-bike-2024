@@ -7,6 +7,7 @@ import org.jxmapviewer.viewer.Waypoint;
 import weizberg.citibike.aws.CitibikeRequest;
 import weizberg.citibike.aws.CitibikeResponse;
 import weizberg.citibike.aws.CoordinateLocation;
+import weizberg.citibike.lambda.LambdaService;
 import weizberg.citibike.lambda.LambdaServiceFactory;
 
 import java.io.IOException;
@@ -16,19 +17,24 @@ public class CitibikeController {
 
     CitibikeRequest request;
     LambdaServiceFactory serviceFactory;
+    LambdaService service;
     CitibikeResponse response;
 
     public CitibikeController() {
         request = new CitibikeRequest();
         serviceFactory = new LambdaServiceFactory();
+        service = serviceFactory.getLambdaService();
     }
 
     public void retrieveBikeInformation(String strFromLocation, String strToLocation) throws IOException {
         addFromLocation(strFromLocation);
         addToLocation(strToLocation);
-        sendRequest().subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .subscribe(this::handleResponse, this::handleError);
+        service.callLambda(request).subscribeOn(Schedulers.io())
+                        .observeOn(Schedulers.io())
+                                .subscribe(
+                                        response -> this.response = response,
+                                        error -> error.printStackTrace()
+                                );
     }
 
     public Waypoint startLocation() {
@@ -50,17 +56,7 @@ public class CitibikeController {
 
 
     public Single<CitibikeResponse> sendRequest() throws IOException {
-        return serviceFactory.callLambda(request)
-                .doOnSuccess(this::handleResponse)
-                .doOnError(this::handleError);
-    }
-
-    private void handleResponse(CitibikeResponse response) {
-        this.response = response;
-    }
-
-    private void handleError(Throwable throwable) {
-        throwable.printStackTrace();
+        return service.callLambda(request);
     }
 
     public void addFromLocation(String strFromLocation) {

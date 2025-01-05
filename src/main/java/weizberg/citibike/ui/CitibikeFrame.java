@@ -90,34 +90,7 @@ public class CitibikeFrame extends JFrame {
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(Schedulers.single())
                                 .subscribe(response -> {
-                                    WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<>();
-                                    Set<Waypoint> waypoints = Set.of(
-                                            from = controller.startLocation(),
-                                            to = controller.endLocation(),
-                                            startStation = controller.bikePickUpLocation(),
-                                            endStation = controller.bikeDropOffLocation()
-                                    );
-                                    waypointPainter.setWaypoints(waypoints);
-
-                                    List<GeoPosition> track = new ArrayList<>();
-                                    track.add(from.getPosition());
-                                    track.add(startStation.getPosition());
-                                    track.add(endStation.getPosition());
-                                    track.add(to.getPosition());
-
-                                    RoutePainter routePainter = new RoutePainter(track);
-
-                                    List<Painter<JXMapViewer>> painters = List.of(
-                                            routePainter,
-                                            waypointPainter
-                                    );
-
-                                    CompoundPainter<JXMapViewer> painter = new CompoundPainter<>(painters);
-                                    mapViewer.setOverlayPainter(painter);
-                                    mapViewer.zoomToBestFit(
-                                            Set.of(from.getPosition(), startStation.getPosition(),
-                                                    endStation.getPosition(), to.getPosition()), 1.0
-                                    );
+                                    createWaypointAndTrack(mapViewer);
                                 }, Throwable::printStackTrace)
                 );
             } catch (IOException e1) {
@@ -129,6 +102,37 @@ public class CitibikeFrame extends JFrame {
 
         add(panel, BorderLayout.SOUTH);
 
+    }
+
+    private void createWaypointAndTrack(JXMapViewer mapViewer) {
+        WaypointPainter<Waypoint> waypointPainter = new WaypointPainter<>();
+        Set<Waypoint> waypoints = Set.of(
+                from = controller.startLocation(),
+                to = controller.endLocation(),
+                startStation = controller.bikePickUpLocation(),
+                endStation = controller.bikeDropOffLocation()
+        );
+        waypointPainter.setWaypoints(waypoints);
+
+        List<GeoPosition> track = new ArrayList<>();
+        track.add(from.getPosition());
+        track.add(startStation.getPosition());
+        track.add(endStation.getPosition());
+        track.add(to.getPosition());
+
+        RoutePainter routePainter = new RoutePainter(track);
+
+        List<Painter<JXMapViewer>> painters = List.of(
+                routePainter,
+                waypointPainter
+        );
+
+        CompoundPainter<JXMapViewer> painter = new CompoundPainter<>(painters);
+        mapViewer.setOverlayPainter(painter);
+        mapViewer.zoomToBestFit(
+                Set.of(from.getPosition(), startStation.getPosition(),
+                        endStation.getPosition(), to.getPosition()), 1.0
+        );
     }
 
     @Override
