@@ -2,6 +2,7 @@ package weizberg.citibike;
 
 
 import org.junit.jupiter.api.Test;
+import weizberg.citibike.service.MergeStationData;
 import weizberg.citibike.json.Station;
 
 
@@ -36,10 +37,8 @@ public class CitibikeServiceTest {
         //given
         MergeStationData mergeStationData = new MergeStationData();
 
-
         //when
         Map<String, Station> stationsMap = mergeStationData.getStationsMap();
-
 
         //then
         assertFalse(stationsMap.isEmpty());
