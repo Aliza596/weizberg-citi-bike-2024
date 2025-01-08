@@ -4,6 +4,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.google.gson.Gson;
+import weizberg.citibike.lambda.StationsCache;
 import weizberg.citibike.service.MergeStationData;
 import weizberg.citibike.service.StationMethods;
 import weizberg.citibike.json.Station;
@@ -20,7 +21,7 @@ public class CitibikeRequestHandler implements RequestHandler<APIGatewayProxyReq
         CitibikeRequest request = gson.fromJson(body, CitibikeRequest.class);
 
         MergeStationData mergeStationData = new MergeStationData();
-        Map<String, Station> stationsMap = mergeStationData.getStationsMap();
+        Map<String, Station> stationsMap = mergeStationData.mergeData();
         StationMethods stationMethods = new StationMethods(stationsMap);
 
         Station start = stationMethods.closestPickUpStation(request.getFrom().getLat(), request.getFrom().getLon());

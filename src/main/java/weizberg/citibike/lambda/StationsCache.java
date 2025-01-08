@@ -25,7 +25,6 @@ public class StationsCache {
     private Instant lastModified;
     private StationResponse stationResponse;
     private CitibikeResponse citibikeResponse;
-    private final MergeStationData mergeStationData = new MergeStationData();
     private final Region region = Region.US_EAST_2;
     private final S3Client s3Client = S3Client.builder()
             .region(region)
@@ -65,7 +64,7 @@ public class StationsCache {
     }
 
     public Data retrieveStationInformation() {
-        DataCollection response = citibikeService.stationLocation().blockingGet();
+        DataCollection response = citibikeService.stationStatus().blockingGet();
         return response.data;
     }
 

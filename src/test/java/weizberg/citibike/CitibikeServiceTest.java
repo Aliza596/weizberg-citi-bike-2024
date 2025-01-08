@@ -21,14 +21,14 @@ public class CitibikeServiceTest {
         MergeStationData mergeStationData = new MergeStationData();
 
         //when
-        Map<String, Station> stationsMap = mergeStationData.getStationsMap();
+        Map<String, Station> stationsMap = mergeStationData.mergeData();
         Station station = stationsMap.get("69717638-5c4a-47a7-bccb-3b42c81eb09f");
 
         //then
         assertFalse(stationsMap.isEmpty());
         assertNotNull(station);
-        assertEquals(station.lat, 40.72368);
-        assertEquals(station.lon, -73.90458);
+        assertEquals(40.72368, station.lat);
+        assertEquals(-73.90458, station.lon);
     }
 
 
@@ -38,7 +38,7 @@ public class CitibikeServiceTest {
         MergeStationData mergeStationData = new MergeStationData();
 
         //when
-        Map<String, Station> stationsMap = mergeStationData.getStationsMap();
+        Map<String, Station> stationsMap = mergeStationData.mergeData();
 
         //then
         assertFalse(stationsMap.isEmpty());

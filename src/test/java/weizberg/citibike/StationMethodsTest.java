@@ -19,7 +19,7 @@ public class StationMethodsTest {
     public void stationStatus() {
         //given
         MergeStationData mergeStationData = new MergeStationData();
-        Map<String, Station> stationMap = mergeStationData.getStationsMap();
+        Map<String, Station> stationMap = mergeStationData.mergeData();
 
         //when
         StationMethods stationMethods = new StationMethods(stationMap);
@@ -39,27 +39,27 @@ public class StationMethodsTest {
     public void closestPickUpStation() {
         //given
         MergeStationData mergeStationData = new MergeStationData();
-        Map<String, Station> stationsMap = mergeStationData.getStationsMap();
+        Map<String, Station> stationsMap = mergeStationData.mergeData();
         StationMethods stationMethods = new StationMethods(stationsMap);
 
         //when
         Station actualClosestStation = stationMethods.closestPickUpStation(40.72368, -73.90458);
 
         //then
-        assertEquals(actualClosestStation.name, "56 Dr & 61 St");
+        assertEquals("56 Dr & 61 St", actualClosestStation.name);
     }
 
     @Test
     public void closestDropOffStation() {
         //given
         MergeStationData mergeStationData = new MergeStationData();
-        Map<String, Station> stationsMap = mergeStationData.getStationsMap();
+        Map<String, Station> stationsMap = mergeStationData.mergeData();
         StationMethods stationMethods = new StationMethods(stationsMap);
 
         //when
         Station actualClosestStation = stationMethods.closestDropOffStation(40.72368, -73.90458);
 
         //then
-        assertEquals(actualClosestStation.name, "56 Dr & 61 St");
+        assertEquals("56 Dr & 61 St", actualClosestStation.name);
     }
 }
