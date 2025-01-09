@@ -28,7 +28,7 @@ public class StationsCache {
             .region(region)
             .build();
     private final Gson gson = new Gson();
-    private CitibikeService citibikeService;
+    private final CitibikeService citibikeService;
     private Data stations;
 
     public StationsCache(CitibikeService citibikeService) {
@@ -56,7 +56,7 @@ public class StationsCache {
     }
 
     public Data retrieveStationInformation() {
-        DataCollection response = citibikeService.stationStatus().blockingGet();
+        DataCollection response = citibikeService.stationLocation().blockingGet();
         return response.data;
     }
 

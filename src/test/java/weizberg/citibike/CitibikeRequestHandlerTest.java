@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 
-public class CitibikeRequestHandler {
+public class CitibikeRequestHandlerTest {
 
     @Test
     public void handleRequest() throws IOException {
@@ -33,7 +33,7 @@ public class CitibikeRequestHandler {
 
         //then
         assertNotNull(response);
-        assertEquals(response.getStart().getName(), "Lenox Ave & W 146 St");
-        //assertEquals(response.getEnd().getName(), "Berry St & N 8 St");
+        assertEquals("Lenox Ave & W 146 St", response.getStart().getName());
+        assertEquals("Berry St & N 8 St", response.getEnd().getName());
     }
 }

@@ -29,8 +29,8 @@ public class LambdaServiceTest {
         CitibikeResponse response = service.callLambda(request).blockingGet();
 
         //then
-        assertEquals(response.getStart().getName(), "Lenox Ave & W 146 St");
-        //assertEquals(response.getEnd().getName(), "Berry St & N 8 St");
+        assertEquals("Lenox Ave & W 146 St", response.getStart().getName());
+        assertEquals("Berry St & N 8 St", response.getEnd().getName());
     }
 
 }

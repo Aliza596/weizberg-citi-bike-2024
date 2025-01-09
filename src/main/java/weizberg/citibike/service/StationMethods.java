@@ -44,6 +44,7 @@ public class StationMethods {
                 closestStation = station;
             }
         }
+
         return closestStation;
     }
 

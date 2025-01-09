@@ -11,7 +11,6 @@ import org.jxmapviewer.input.ZoomMouseWheelListenerCursor;
 import org.jxmapviewer.painter.CompoundPainter;
 import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.*;
-import weizberg.citibike.lambda.LambdaServiceFactory;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;

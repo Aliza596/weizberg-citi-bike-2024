@@ -4,10 +4,10 @@ import weizberg.citibike.json.Station;
 
 public class CitibikeResponse {
 
-    private CoordinateLocation from;
-    private CoordinateLocation to;
-    private StationResponse start;
-    private StationResponse end;
+    private final CoordinateLocation from;
+    private final CoordinateLocation to;
+    private final StationResponse start;
+    private final StationResponse end;
 
     public CitibikeResponse(CoordinateLocation from, CoordinateLocation to, Station start, Station end) {
         this.from = from;

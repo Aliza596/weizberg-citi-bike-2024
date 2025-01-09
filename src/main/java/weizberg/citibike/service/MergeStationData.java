@@ -1,9 +1,6 @@
 package weizberg.citibike.service;
 
 
-import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.schedulers.Schedulers;
-import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 import weizberg.citibike.json.Data;
 import weizberg.citibike.json.DataCollection;
 import weizberg.citibike.json.Station;
@@ -11,9 +8,7 @@ import weizberg.citibike.lambda.StationsCache;
 
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 
 public class MergeStationData {
@@ -28,7 +23,6 @@ public class MergeStationData {
     }
 
     public Map<String, Station> mergeData() {
-
         DataCollection stationStatus = citibikeService.stationStatus().blockingGet();
         Data stationInfo = stationsCache.getStationResponse();
 
@@ -49,19 +43,6 @@ public class MergeStationData {
             }
             stationMap.put(stationLocation.station_id, stationLocation);
         }
-
-/*        for (int i = 0; i < stationInfo.stations.length; i++) {
-            Station stationLocation = stationInfo.stations[i];
-            Station stationInformation = stationMap.get(stationLocation.station_id);
-
-            if (stationLocation != null) {
-                stationLocation.num_docks_available = stationInformation.num_docks_available;
-                stationLocation.num_bikes_available = stationInformation.num_bikes_available;
-            } else {
-                stationMap.put(stationLocation.station_id, stationLocation);
-            }
-            stationMap.put(stationLocation.station_id, stationLocation);
-        }*/
 
         return stationMap;
 

@@ -4,8 +4,6 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.google.gson.Gson;
-import weizberg.citibike.lambda.StationsCache;
-import weizberg.citibike.service.CitibikeServiceFactory;
 import weizberg.citibike.service.MergeStationData;
 import weizberg.citibike.service.StationMethods;
 import weizberg.citibike.json.Station;
