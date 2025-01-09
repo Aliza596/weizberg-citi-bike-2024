@@ -88,7 +88,6 @@ public class StationsCache {
             DataCollection response = citibikeService.stationLocation().blockingGet();
             String content = gson.toJson(response.data);
             s3Client.putObject(putObjectRequest, RequestBody.fromString(content));
-            System.out.println("Writing to S3");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -103,7 +102,6 @@ public class StationsCache {
 
             InputStream in = s3Client.getObject(getObjectRequest);
             stations = gson.fromJson(new InputStreamReader(in), Data.class);
-            System.out.println("Reading from S3");
         } catch (Exception e) {
             e.printStackTrace();
         }
