@@ -32,7 +32,7 @@ public class StationsCache {
     private PutObjectRequest putObjectRequest;
     private final Gson gson = new Gson();
     private CitibikeService citibikeService;
-    private CitibikeServiceFactory factory = new CitibikeServiceFactory();
+    private CitibikeServiceFactory factory;
     private Data stations;
 
     public StationsCache() {
@@ -40,6 +40,7 @@ public class StationsCache {
                 .bucket("weizberg.citibike")
                 .key("stations.json")
                 .build();
+        factory = new CitibikeServiceFactory();
         citibikeService = factory.getCitibikeService();
     }
 
@@ -88,19 +89,29 @@ public class StationsCache {
     }
 
     public void writingToS3() {
-        DataCollection response = citibikeService.stationLocation().blockingGet();
-        String content = gson.toJson(response.data);
-        s3Client.putObject(putObjectRequest, RequestBody.fromString(content));
+        try {
+            DataCollection response = citibikeService.stationLocation().blockingGet();
+            String content = gson.toJson(response.data);
+            s3Client.putObject(putObjectRequest, RequestBody.fromString(content));
+            System.out.println("Writing to S3");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void readingFromS3() {
-        GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-                .bucket("weizberg.citibike")
-                .key("stations.json")
-                .build();
+        try {
+            GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                    .bucket("weizberg.citibike")
+                    .key("stations.json")
+                    .build();
 
-        InputStream in = s3Client.getObject(getObjectRequest);
-        stations = gson.fromJson(new InputStreamReader(in), Data.class);
+            InputStream in = s3Client.getObject(getObjectRequest);
+            stations = gson.fromJson(new InputStreamReader(in), Data.class);
+            System.out.println("Reading from S3");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

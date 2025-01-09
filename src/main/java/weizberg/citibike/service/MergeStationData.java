@@ -19,11 +19,12 @@ import java.util.concurrent.TimeUnit;
 public class MergeStationData {
 
     CitibikeService citibikeService;
-    StationsCache stationsCache = new StationsCache();
+    StationsCache stationsCache;
 
     public MergeStationData() {
         CitibikeServiceFactory factory = new CitibikeServiceFactory();
         citibikeService = factory.getCitibikeService();
+        stationsCache = new StationsCache();
     }
 
     public Map<String, Station> mergeData() {
@@ -38,15 +39,16 @@ public class MergeStationData {
         }
 
         for (int i = 0; i < stationInfo.data.stations.length; i++) {
-            Station status = stationInfo.data.stations[i];
-            Station currentStation = stationMap.get(status.station_id);
+            Station stationLocation = stationInfo.data.stations[i];
+            Station stationInformation = stationMap.get(stationLocation.station_id);
 
-            if (currentStation != null) {
-                currentStation.num_bikes_available = status.num_bikes_available;
-                currentStation.num_docks_available = status.num_docks_available;
+            if (stationLocation != null) {
+                stationLocation.num_docks_available = stationInformation.num_docks_available;
+                stationLocation.num_bikes_available = stationInformation.num_bikes_available;
             } else {
-                stationMap.put(status.station_id, status);
+                stationMap.put(stationLocation.station_id, stationLocation);
             }
+            stationMap.put(stationLocation.station_id, stationLocation);
         }
 
         return stationMap;
