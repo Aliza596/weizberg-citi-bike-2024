@@ -23,25 +23,16 @@ import java.util.Map;
 public class StationsCache {
 
     private Instant lastModified;
-    private StationResponse stationResponse;
-    private CitibikeResponse citibikeResponse;
     private final Region region = Region.US_EAST_2;
     private final S3Client s3Client = S3Client.builder()
             .region(region)
             .build();
-    private PutObjectRequest putObjectRequest;
     private final Gson gson = new Gson();
     private CitibikeService citibikeService;
-    private CitibikeServiceFactory factory;
     private Data stations;
 
-    public StationsCache() {
-        putObjectRequest = PutObjectRequest.builder()
-                .bucket("weizberg.citibike")
-                .key("stations.json")
-                .build();
-        factory = new CitibikeServiceFactory();
-        citibikeService = factory.getCitibikeService();
+    public StationsCache(CitibikeService citibikeService) {
+        this.citibikeService = citibikeService;
     }
 
     public Data getStationResponse() {
@@ -90,6 +81,10 @@ public class StationsCache {
 
     public void writingToS3() {
         try {
+            PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                    .bucket("weizberg.citibike")
+                    .key("stations.json")
+                    .build();
             DataCollection response = citibikeService.stationLocation().blockingGet();
             String content = gson.toJson(response.data);
             s3Client.putObject(putObjectRequest, RequestBody.fromString(content));

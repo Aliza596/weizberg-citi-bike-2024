@@ -24,7 +24,7 @@ public class MergeStationData {
     public MergeStationData() {
         CitibikeServiceFactory factory = new CitibikeServiceFactory();
         citibikeService = factory.getCitibikeService();
-        stationsCache = new StationsCache();
+        stationsCache = new StationsCache(citibikeService);
     }
 
     public Map<String, Station> mergeData() {
@@ -33,13 +33,11 @@ public class MergeStationData {
 
         Map<String, Station> stationMap = new HashMap<>();
 
-        for (int i = 0; i < stationStatus.stations.length; i++) {
-            Station station = stationStatus.stations[i];
+        for (Station station : stationStatus.stations) {
             stationMap.put(station.station_id, station);
         }
 
-        for (int i = 0; i < stationInfo.data.stations.length; i++) {
-            Station stationLocation = stationInfo.data.stations[i];
+        for (Station stationLocation : stationInfo.data.stations) {
             Station stationInformation = stationMap.get(stationLocation.station_id);
 
             if (stationLocation != null) {
