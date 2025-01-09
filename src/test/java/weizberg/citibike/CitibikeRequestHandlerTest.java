@@ -3,6 +3,7 @@ package weizberg.citibike;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import org.junit.jupiter.api.Test;
+import weizberg.citibike.aws.CitibikeRequestHandler;
 import weizberg.citibike.aws.CitibikeResponse;
 
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class CitibikeRequestHandlerTest {
 
         APIGatewayProxyRequestEvent requestEvent = new APIGatewayProxyRequestEvent();
         requestEvent.setBody(json);
-        weizberg.citibike.aws.CitibikeRequestHandler handler = new weizberg.citibike.aws.CitibikeRequestHandler();
+        CitibikeRequestHandler handler = new CitibikeRequestHandler();
 
         //when
         CitibikeResponse response = handler.handleRequest(requestEvent, context);

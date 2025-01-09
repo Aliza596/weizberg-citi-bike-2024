@@ -30,6 +30,8 @@ public class StationsCache {
     private final Gson gson = new Gson();
     private final CitibikeService citibikeService;
     private Data stations;
+    private final String bucketName = "weizberg.citibike";
+    private final String key = "stations.json";
 
     public StationsCache(CitibikeService citibikeService) {
         this.citibikeService = citibikeService;
@@ -62,8 +64,8 @@ public class StationsCache {
 
     public boolean recentUpload() {
         HeadObjectRequest headObjectRequest = HeadObjectRequest.builder()
-                .bucket("weizberg.citibike")
-                .key("stations.json")
+                .bucket(bucketName)
+                .key(key)
                 .build();
 
         try {
@@ -82,11 +84,10 @@ public class StationsCache {
     public void writingToS3() {
         try {
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
-                    .bucket("weizberg.citibike")
-                    .key("stations.json")
+                    .bucket(bucketName)
+                    .key(key)
                     .build();
-            DataCollection response = citibikeService.stationLocation().blockingGet();
-            String content = gson.toJson(response.data);
+            String content = gson.toJson(stations);
             s3Client.putObject(putObjectRequest, RequestBody.fromString(content));
         } catch (Exception e) {
             e.printStackTrace();
