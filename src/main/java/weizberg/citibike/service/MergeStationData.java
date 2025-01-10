@@ -1,49 +1,52 @@
 package weizberg.citibike.service;
 
 
-import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.schedulers.Schedulers;
+import weizberg.citibike.json.Data;
 import weizberg.citibike.json.DataCollection;
 import weizberg.citibike.json.Station;
+import weizberg.citibike.lambda.StationsCache;
 
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 
 public class MergeStationData {
 
     CitibikeService citibikeService;
+    StationsCache stationsCache;
 
     public MergeStationData() {
         CitibikeServiceFactory factory = new CitibikeServiceFactory();
         citibikeService = factory.getCitibikeService();
+        stationsCache = new StationsCache(citibikeService);
     }
 
+    public Map<String, Station> mergeData() {
+        DataCollection stationStatus = citibikeService.stationStatus().blockingGet();
+        Data stationInfo = stationsCache.getStationResponse();
 
-    public Single<DataCollection> mergeData() {
-        Single<DataCollection> stationInfo = citibikeService.stationLocation();
-        Single<DataCollection> stationStatus = citibikeService.stationStatus();
+        Map<String, Station> stationMap = new HashMap<>();
 
-
-        return Single.zip(stationInfo, stationStatus, (info, status) -> {
-                    info.mergeData(status);
-                    return info;
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.single());
-    }
-
-
-    public Map<String, Station> getStationsMap() {
-        try {
-            return mergeData().timeout(10, TimeUnit.SECONDS).blockingGet().getStationsMap();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        for (Station station : stationStatus.data.stations) {
+            stationMap.put(station.station_id, station);
         }
-    }
 
+        for (Station stationLocation : stationInfo.stations) {
+            Station stationInformation = stationMap.get(stationLocation.station_id);
+
+            if (stationLocation != null) {
+                stationLocation.num_docks_available = stationInformation.num_docks_available;
+                stationLocation.num_bikes_available = stationInformation.num_bikes_available;
+            } else {
+                stationMap.put(stationLocation.station_id, stationLocation);
+            }
+            stationMap.put(stationLocation.station_id, stationLocation);
+        }
+
+        return stationMap;
+
+    }
 
 }
 

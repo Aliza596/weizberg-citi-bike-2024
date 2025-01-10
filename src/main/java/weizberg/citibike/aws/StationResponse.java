@@ -31,7 +31,4 @@ public class StationResponse {
         return name;
     }
 
-    public String getStation_id() {
-        return station_id;
-    }
 }

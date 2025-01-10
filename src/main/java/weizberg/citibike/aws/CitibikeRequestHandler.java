@@ -12,6 +12,8 @@ import java.util.Map;
 
 public class CitibikeRequestHandler implements RequestHandler<APIGatewayProxyRequestEvent, CitibikeResponse> {
 
+    MergeStationData mergeStationData = new MergeStationData();
+
     @Override
     public CitibikeResponse handleRequest(APIGatewayProxyRequestEvent event, Context context) {
 
@@ -19,8 +21,7 @@ public class CitibikeRequestHandler implements RequestHandler<APIGatewayProxyReq
         Gson gson = new Gson();
         CitibikeRequest request = gson.fromJson(body, CitibikeRequest.class);
 
-        MergeStationData mergeStationData = new MergeStationData();
-        Map<String, Station> stationsMap = mergeStationData.getStationsMap();
+        Map<String, Station> stationsMap = mergeStationData.mergeData();
         StationMethods stationMethods = new StationMethods(stationsMap);
 
         Station start = stationMethods.closestPickUpStation(request.getFrom().getLat(), request.getFrom().getLon());
